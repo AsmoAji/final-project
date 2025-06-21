@@ -30,14 +30,22 @@ func (c *ItemController) GetItems(ctx *gin.Context) {
 func (c *ItemController) CreateItem(ctx *gin.Context) {
 	var item entity.Item
 	if err := ctx.ShouldBindJSON(&item); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Input tidak valid"})
 		return
 	}
+
+	// Validasi dasar
+	if item.Name == "" || item.SerialNumber == "" || item.Category == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Nama, serial number, dan kategori wajib diisi"})
+		return
+	}
+
 	err := c.ItemService.CreateItem(&item)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create item"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	ctx.JSON(http.StatusCreated, gin.H{"message": "Item created"})
 }
 

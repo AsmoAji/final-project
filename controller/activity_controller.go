@@ -44,6 +44,21 @@ func (c *ActivityController) CreateActivity(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+	println("DEBUG: ItemID =", activity.ItemID)
+	println("DEBUG: UserID =", activity.UserID)
+	println("DEBUG: Action =", activity.Action)
+	println("DEBUG: Date =", activity.Date.String())
+
+	// Validasi wajib
+	if activity.ItemID == 0 || activity.UserID == 0 || activity.Action == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ItemID, UserID, dan Action wajib diisi"})
+		return
+	}
+
+	if activity.Date.IsZero() {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Tanggal aktivitas tidak valid (format: YYYY-MM-DD)"})
+		return
+	}
 	err := c.ActivityService.CreateActivity(&activity)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create activity"})

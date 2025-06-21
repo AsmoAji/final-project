@@ -25,11 +25,11 @@ func (s *itemService) GetAllItems() ([]entity.Item, error) {
 }
 
 func (s *itemService) CreateItem(item *entity.Item) error {
-	return s.repo.Create(*item)
+	return s.repo.Create(item)
 }
 
 func (s *itemService) UpdateItem(item *entity.Item) error {
-	return s.repo.Update(*item)
+	return s.repo.Update(item)
 }
 
 func (s *itemService) DeleteItem(id uint) error {

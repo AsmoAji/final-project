@@ -28,5 +28,5 @@ func (s *activityService) GetActivityByID(id uint) (entity.Activity, error) {
 }
 
 func (s *activityService) CreateActivity(activity *entity.Activity) error {
-	return s.repo.Create(*activity)
+	return s.repo.Create(activity)
 }

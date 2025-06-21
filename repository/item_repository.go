@@ -2,15 +2,14 @@ package repository
 
 import (
 	"final-project/entity"
-
 	"gorm.io/gorm"
 )
 
 type ItemRepository interface {
 	FindAll() ([]entity.Item, error)
 	FindByID(id uint) (entity.Item, error)
-	Create(item entity.Item) error
-	Update(item entity.Item) error
+	Create(item *entity.Item) error
+	Update(item *entity.Item) error
 	Delete(id uint) error
 }
 
@@ -34,12 +33,12 @@ func (r *itemRepository) FindByID(id uint) (entity.Item, error) {
 	return item, err
 }
 
-func (r *itemRepository) Create(item entity.Item) error {
-	return r.db.Create(&item).Error
+func (r *itemRepository) Create(item *entity.Item) error {
+	return r.db.Create(item).Error
 }
 
-func (r *itemRepository) Update(item entity.Item) error {
-	return r.db.Save(&item).Error
+func (r *itemRepository) Update(item *entity.Item) error {
+	return r.db.Save(item).Error
 }
 
 func (r *itemRepository) Delete(id uint) error {
